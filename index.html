@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Search Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <h1>Car Explorer</h1>
+      <p>Search & filter cars by type, fuel, and brand</p>
+    </header>
+
+    <main class="content">
+      <!-- Microinteraction A -->
+      <section class="card">
+        <h2>Search Car Types</h2>
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Enter car type (SUV, Sedan, EV...)" aria-label="Search car type">
+          <ul class="suggestions" id="suggestions" role="listbox"></ul>
+        </div>
+      </section>
+
+      <!-- Microinteraction B -->
+      <section class="card">
+        <h2>Filter Cars</h2>
+        <p>Select fuel types or brands:</p>
+        <div class="filters">
+          <button class="filter-btn" data-value="Petrol">Petrol</button>
+          <button class="filter-btn" data-value="Diesel">Diesel</button>
+          <button class="filter-btn" data-value="Electric">Electric</button>
+          <button class="filter-btn" data-value="Hybrid">Hybrid</button>
+          <button class="filter-btn" data-value="Tesla">Tesla</button>
+          <button class="filter-btn" data-value="Toyota">Toyota</button>
+          <button class="filter-btn" data-value="BMW">BMW</button>
+          <button class="filter-btn" data-value="Ford">Ford</button>
+        </div>
+        <div class="chip-list" id="chipList" aria-live="polite"></div>
+      </section>
+
+      <!-- Results -->
+      <section class="card">
+        <h2>Search Results</h2>
+        <div class="results" id="results"></div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
