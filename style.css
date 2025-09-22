@@ -343,8 +343,9 @@ body::before {
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.1);
+  background-color: #fbefff;
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(100px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 
@@ -362,6 +363,7 @@ body::before {
 
 [data-theme="dark"] .suggestions {
   background: rgba(0, 0, 0, 0.2);
+  background-color: #0f172a;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
@@ -379,7 +381,8 @@ body::before {
   cursor: pointer;
   color: var(--text-primary);
   backdrop-filter: blur(1200px);
-  background-color: #0f172a;
+  -webkit-backdrop-filter: blur(100px);
+  /* background-color: #0f172a; */
   transition: all 0.2s ease;
   border-bottom: 1px solid var(--border-primary);
 }
@@ -829,8 +832,4 @@ body::before {
   .car-card:hover {
     transform: none;
   }
-}
-
-.suggestions .backdrop.blur {
-  filter: blur(5px);
 }
