@@ -3,46 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Search Dashboard</title>
+  <title>Car Explorer - Premium Search Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="dashboard">
     <header class="header">
-      <h1>Car Explorer</h1>
-      <p>Search & filter cars by type, fuel, and brand</p>
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10h-1.3l-1.2-6H8.5l-1.2 6H6l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/>
+              <circle cx="7" cy="17" r="2"/>
+              <path d="M9 17h6"/>
+              <circle cx="17" cy="17" r="2"/>
+            </svg>
+          </div>
+          <h1>Car Explorer</h1>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+      <p class="subtitle">Discover and filter premium cars by type, fuel, and brand</p>
     </header>
 
     <main class="content">
-      <!-- Microinteraction A -->
-      <section class="card">
-        <h2>Search Car Types</h2>
-        <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Enter car type (SUV, Sedan, EV...)" aria-label="Search car type">
-          <ul class="suggestions" id="suggestions" role="listbox"></ul>
+      <!-- Interaction A: Expandable Search -->
+      <section class="search-card">
+      <div class="search-container" id="searchContainer">
+        <input type="text" id="searchInput" placeholder="Enter car type (SUV, Sedan, EV...)" aria-label="Search car type" autocomplete="off">
+        <div class="search-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
         </div>
+        <ul class="suggestions" id="suggestions" role="listbox"></ul>
+      </div>
       </section>
 
-      <!-- Microinteraction B -->
-      <section class="card">
-        <h2>Filter Cars</h2>
-        <p>Select fuel types or brands:</p>
+      <!-- Interaction B: Animated Chips -->
+      <section class="filters-card">
         <div class="filters">
-          <button class="filter-btn" data-value="Petrol">Petrol</button>
-          <button class="filter-btn" data-value="Diesel">Diesel</button>
-          <button class="filter-btn" data-value="Electric">Electric</button>
-          <button class="filter-btn" data-value="Hybrid">Hybrid</button>
-          <button class="filter-btn" data-value="Tesla">Tesla</button>
-          <button class="filter-btn" data-value="Toyota">Toyota</button>
-          <button class="filter-btn" data-value="BMW">BMW</button>
-          <button class="filter-btn" data-value="Ford">Ford</button>
+          <button class="filter-btn" data-value="Petrol" data-category="fuel">
+            <span>⛽</span> Petrol
+          </button>
+          <button class="filter-btn" data-value="Diesel" data-category="fuel">
+            <span>🚛</span> Diesel
+          </button>
+          <button class="filter-btn" data-value="Electric" data-category="fuel">
+            <span>⚡</span> Electric
+          </button>
+          <button class="filter-btn" data-value="Hybrid" data-category="fuel">
+            <span>🔋</span> Hybrid
+          </button>
+          <button class="filter-btn" data-value="Tesla" data-category="brand">
+            <span>🏎️</span> Tesla
+          </button>
+          <button class="filter-btn" data-value="Toyota" data-category="brand">
+            <span>🚗</span> Toyota
+          </button>
+          <button class="filter-btn" data-value="BMW" data-category="brand">
+            <span>🏁</span> BMW
+          </button>
+          <button class="filter-btn" data-value="Ford" data-category="brand">
+            <span>🚙</span> Ford
+          </button>
         </div>
-        <div class="chip-list" id="chipList" aria-live="polite"></div>
+        <div class="chip-container">
+          <div class="chip-list" id="chipList" aria-live="polite" aria-label="Active filters"></div>
+          <button class="clear-all" id="clearAll" style="display: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+            </svg>
+            Clear All
+          </button>
+        </div>
       </section>
 
       <!-- Results -->
-      <section class="card">
-        <h2>Search Results</h2>
+      <section class="compact-card results-card">
+        <h2>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11H1l8-8 8 8"/>
+            <path d="M9 11v10"/>
+          </svg>
+          Search Results
+        </h2>
+        <div class="results-info">
+          <span id="resultsCount">7 cars found</span>
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid" aria-label="Grid view">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </button>
+            <button class="view-btn" data-view="list" aria-label="List view">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
         <div class="results" id="results"></div>
       </section>
     </main>
