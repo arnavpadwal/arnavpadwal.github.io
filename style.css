@@ -378,6 +378,8 @@ body::before {
   padding: 0.875rem 1.25rem;
   cursor: pointer;
   color: var(--text-primary);
+  backdrop-filter: blur(1200px);
+  background-color: #0f172a;
   transition: all 0.2s ease;
   border-bottom: 1px solid var(--border-primary);
 }
