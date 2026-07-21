@@ -100,7 +100,27 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 .hero-meta { display: flex; flex-wrap: wrap; gap: 1rem 2rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; }
 .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
 .hero-meta span::before { content: '▸'; color: var(--accent-cyber); font-size: 0.7rem; }
-.hero-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2rem; line-height: 1.85; }
+.hero-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; margin-bottom: 1.5rem; line-height: 1.85; }
+.hero-banner {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0,230,118,0.06); border: 1px solid rgba(0,230,118,0.18);
+  border-radius: 8px;
+  font-size: 0.85rem; color: var(--accent-cyber);
+  margin-bottom: 1.5rem;
+}
+.hero-banner-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent-cyber);
+  box-shadow: 0 0 8px var(--accent-glow-cyber);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.hero-banner-link { color: var(--accent-cyber); font-weight: 600; text-decoration: underline; white-space: nowrap; }
+.hero-banner-link:hover { color: #fff; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
 .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
 .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: 1px solid transparent; }
 .btn-primary { background: var(--accent-cyber); color: #0a0a0f; border-color: var(--accent-cyber); box-shadow: 0 0 20px var(--accent-glow-cyber); }
@@ -109,6 +129,17 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 .btn-outline:hover { border-color: var(--accent-dev); box-shadow: 0 0 20px var(--accent-glow-dev); }
 .btn-outline-product { background: transparent; border-color: var(--border); color: var(--text-primary); }
 .btn-outline-product:hover { border-color: var(--accent-product); box-shadow: 0 0 20px var(--accent-glow-product); }
+.btn-hire {
+  background: linear-gradient(135deg, rgba(0,230,118,0.12), rgba(0,230,118,0.04));
+  border: 1px solid var(--accent-cyber);
+  color: var(--accent-cyber);
+  animation: hire-pulse 2.5s ease-in-out infinite;
+}
+.btn-hire:hover { background: var(--accent-cyber); color: #0a0a0f; box-shadow: 0 0 30px var(--accent-glow-cyber); transform: translateY(-2px); animation: none; }
+@keyframes hire-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--accent-glow-cyber); }
+  50% { box-shadow: 0 0 22px rgba(0,230,118,0.45); }
+}
 
 /* ═══════ SECTION HEADERS ═══════ */
 .section-header { text-align: center; margin-bottom: 4rem; }
@@ -329,10 +360,16 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
         50+ vulnerabilities found across 20+ enterprise engagements.
         Published researcher with an Indian patent.
       </p>
+      <div class="hero-banner">
+        <span class="hero-banner-dot"></span>
+        <span>Open for freelance VAPT engagements &mdash;</span>
+        <a href="hire.html" class="hero-banner-link">learn more &rarr;</a>
+      </div>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">About Me</a>
         <a href="#experience" class="btn btn-outline">View Experience</a>
         <a href="#contact" class="btn btn-outline-product">Get in Touch</a>
+        <a href="hire.html" class="btn btn-hire">&#128737; Available for VAPT</a>
       </div>
     </div>
   </div>
