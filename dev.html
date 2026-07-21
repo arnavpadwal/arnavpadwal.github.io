@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Arnav Padwal — Freelance VAPT Engagements. Web, Mobile, API, LLM, and AI attack surface assessments.">
-<meta property="og:title" content="Hire Arnav Padwal — VAPT Engagements">
-<meta property="og:description" content="Comprehensive VAPT across web, mobile, desktop, APIs, WebSockets, LLM, and AI attack surfaces.">
-<title>Hire Me | Arnav Padwal — VAPT Engagements</title>
+<meta name="description" content="Arnav Padwal — Freelance Android App Development. Flutter, native Android, and cross-platform mobile solutions.">
+<meta property="og:title" content="Hire Arnav Padwal — Android Development">
+<meta property="og:description" content="Freelance Android app development services. Flutter, Dart, and native Android.">
+<title>Hire Me | Arnav Padwal — Android Development</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -18,8 +18,8 @@
   --text-primary: #e8e8f0;
   --text-secondary: #9898b8;
   --text-muted: #686888;
-  --accent: #00e676;
-  --accent-glow: rgba(0, 230, 118, 0.25);
+  --accent: #4dabf7;
+  --accent-glow: rgba(77, 171, 247, 0.25);
   --font-mono: 'Fira Code', 'Cascadia Code', monospace;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -47,7 +47,6 @@ canvas#matrix {
 .container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 section { padding: 5rem 0; position: relative; z-index: 1; }
 
-/* NAV */
 nav {
   position: fixed; top: 0; width: 100%; z-index: 100;
   background: rgba(10,10,15,0.75);
@@ -55,16 +54,17 @@ nav {
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 nav .container { display: flex; justify-content: space-between; align-items: center; height: 64px; }
-.nav-logo { font-family: var(--font-mono); font-weight: 700; font-size: 1.2rem; }
+.nav-logo { font-family: var(--font-mono); font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+.nav-logo .cursor { color: var(--accent); animation: blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
 .nav-links { display: flex; gap: 1.5rem; list-style: none; }
 .nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.3s; }
 .nav-links a:hover { color: var(--text-primary); }
 
-/* HERO */
 #hero { min-height: 60vh; display: flex; align-items: center; padding-top: 80px; }
 .hero-content { max-width: 700px; }
 .hero-tag { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-.hero-tag::before { content: '$'; color: #4dabf7; }
+.hero-tag::before { content: '$'; color: #00e676; }
 .hero-title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.12; margin-bottom: 0.5rem; }
 .hero-title span { color: var(--accent); }
 .hero-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 560px; margin-bottom: 1.5rem; line-height: 1.85; }
@@ -84,13 +84,11 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-primary); }
 .btn-outline:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
 
-/* SECTION HEADER */
 .section-header { text-align: center; margin-bottom: 3.5rem; }
 .section-tag { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem; }
 .section-title { font-size: clamp(1.6rem, 3.5vw, 2.25rem); font-weight: 800; margin-bottom: 0.75rem; }
 .section-line { width: 60px; height: 3px; background: var(--accent); margin: 0 auto; border-radius: 2px; }
 
-/* SERVICES */
 #services { background: var(--bg-secondary); }
 .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
 .service-card {
@@ -106,18 +104,10 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 .service-list li { font-size: 0.82rem; color: var(--text-muted); padding: 0.15rem 0; padding-left: 1.2rem; position: relative; }
 .service-list li::before { content: '▸'; color: var(--accent); position: absolute; left: 0; font-size: 0.7rem; top: 2px; }
 
-/* WHY */
-.why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; max-width: 900px; margin: 0 auto; }
-.why-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.3s ease;
-}
-.why-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-.why-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-.why-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
-.why-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+.tech-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+.tech-tag { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.25rem 0.6rem; border-radius: 20px; background: rgba(77,171,247,0.08); border: 1px solid rgba(77,171,247,0.18); color: var(--accent); }
 
-/* PROCESS */
+#process { background: var(--bg-secondary); }
 .process-list { max-width: 800px; margin: 0 auto; display: grid; gap: 1rem; }
 .process-step {
   display: flex; gap: 1.25rem; align-items: flex-start;
@@ -126,7 +116,7 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 }
 .process-num {
   width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(0,230,118,0.1); color: var(--accent);
+  background: rgba(77,171,247,0.1); color: var(--accent);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;
   flex-shrink: 0;
@@ -134,7 +124,16 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 .process-step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
 .process-step p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
 
-/* CTA */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
+.project-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.75rem;
+  transition: all 0.3s ease;
+}
+.project-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.project-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+.project-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.75rem; }
+
 #cta { text-align: center; }
 .cta-card {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -155,16 +154,14 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 }
 .cta-link:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
 
-/* FOOTER */
-footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: center; }
+footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: center; margin-top: 2rem; }
 .footer-text { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
 .footer-text span { color: var(--accent); }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::selection { background: rgba(0,230,118,0.25); color: var(--text-primary); }
+::selection { background: rgba(77,171,247,0.25); color: var(--text-primary); }
 
 .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.22,1,0.36,1); }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
@@ -181,12 +178,13 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
 
 <nav>
   <div class="container">
-    <a href="/" class="nav-logo">~/arnav<span style="color:var(--accent);animation:blink 1s step-end infinite;">_</span></a>
+    <a href="/" class="nav-logo">~/arnav<span class="cursor">_</span></a>
     <ul class="nav-links">
       <li><a href="/">Portfolio</a></li>
+      <li><a href="hire.html">&#128737; VAPT</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#process">Process</a></li>
-      <li><a href="#cta">Hire Me</a></li>
+      <li><a href="#cta">Contact</a></li>
     </ul>
   </div>
 </nav>
@@ -194,28 +192,27 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
 <section id="hero">
   <div class="container">
     <div class="hero-content fade-in">
-      <div class="hero-tag">./engage.sh</div>
-      <h1 class="hero-title">Secure Your <span>Attack Surface</span></h1>
+      <div class="hero-tag">./build.sh</div>
+      <h1 class="hero-title">Build Your <span>Android App</span></h1>
       <p class="hero-subtitle">
-        Comprehensive VAPT engagements for web apps, mobile, APIs, desktop
-        software, and emerging AI attack surfaces. I find what your internal
-        teams miss.
+        Freelance Android application development. From MVPs to production apps,
+        I build secure, performant, and polished mobile experiences in Flutter and native Android.
       </p>
       <div class="hero-metrics">
         <div class="hero-metric">
-          <div class="num">50+</div>
-          <div class="label">Vulnerabilities Found</div>
+          <div class="num">3+</div>
+          <div class="label">Apps Built</div>
         </div>
         <div class="hero-metric">
-          <div class="num">20+</div>
-          <div class="label">Engagements Delivered</div>
+          <div class="num">2+</div>
+          <div class="label">Years Experience</div>
         </div>
         <div class="hero-metric">
-          <div class="num">7</div>
-          <div class="label">Attack Surfaces Covered</div>
+          <div class="num">Flutter</div>
+          <div class="label">Primary Framework</div>
         </div>
       </div>
-      <a href="#cta" class="btn btn-primary">Start an Engagement</a>
+      <a href="#cta" class="btn btn-primary">Start a Project</a>
       <a href="/" class="btn btn-outline" style="margin-left:1rem;">View Portfolio</a>
     </div>
   </div>
@@ -224,94 +221,153 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
 <section id="services">
   <div class="container">
     <div class="section-header fade-in">
-      <div class="section-tag">Engagements</div>
-      <h2 class="section-title">VAPT Services</h2>
+      <div class="section-tag">Services</div>
+      <h2 class="section-title">What I Build</h2>
       <div class="section-line"></div>
     </div>
     <div class="services-grid">
       <div class="service-card fade-in">
-        <div class="service-icon">&#127760;</div>
-        <h3>Web Applications</h3>
-        <p>Full-stack web application pentesting covering OWASP Top 10, business logic flaws, auth bypass, and chained exploits.</p>
-        <ul class="service-list">
-          <li>OWASP Top 10 coverage</li>
-          <li>Auth & session testing</li>
-          <li>Business logic flaws</li>
-          <li>WAF & RASP bypass</li>
-        </ul>
-      </div>
-
-      <div class="service-card fade-in">
         <div class="service-icon">&#128241;</div>
-        <h3>Mobile (Android)</h3>
-        <p>Android APK analysis, runtime instrumentation, SSL pinning bypass, and storage/insecure IPC evaluation.</p>
+        <h3>Android App Development</h3>
+        <p>Full-cycle native and cross-platform Android app development from concept to Play Store deployment.</p>
         <ul class="service-list">
-          <li>APK static & dynamic analysis</li>
-          <li>SSL pinning bypass (Frida)</li>
-          <li>Insecure storage & IPC</li>
-          <li>Permission spoofing</li>
+          <li>Native Android (Kotlin/Java)</li>
+          <li>Flutter cross-platform apps</li>
+          <li>Material Design 3 UI</li>
+          <li>Play Store submission & review</li>
         </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Flutter</span>
+          <span class="tech-tag">Dart</span>
+          <span class="tech-tag">Android SDK</span>
+          <span class="tech-tag">Play Store</span>
+        </div>
       </div>
 
       <div class="service-card fade-in">
-        <div class="service-icon">&#128187;</div>
-        <h3>Desktop Applications</h3>
-        <p>Binary analysis, DLL/so injection, process manipulation, and privilege escalation on Windows and Linux.</p>
+        <div class="service-icon">&#128274;</div>
+        <h3>Secure Messaging & Comms</h3>
+        <p>End-to-end encrypted messaging apps, peer-to-peer communication, and privacy-first mobile solutions.</p>
         <ul class="service-list">
-          <li>Binary reverse engineering</li>
-          <li>DLL / shared object analysis</li>
-          <li>Privilege escalation paths</li>
-          <li>Process & memory inspection</li>
+          <li>E2EE implementation</li>
+          <li>P2P messaging architecture</li>
+          <li>Post-quantum encryption</li>
+          <li>Serverless design</li>
         </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">CRYSTALS-Kyber</span>
+          <span class="tech-tag">AES-256-GCM</span>
+          <span class="tech-tag">IPv6 P2P</span>
+        </div>
       </div>
 
       <div class="service-card fade-in">
-        <div class="service-icon">&#128268;</div>
-        <h3>WebSockets</h3>
-        <p>Real-time protocol security testing for Socket.IO, raw WebSockets, and streaming endpoints.</p>
+        <div class="service-icon">&#128295;</div>
+        <h3>App Security Hardening</h3>
+        <p>Security-first development with built-in protections against reverse engineering, tampering, and data leaks.</p>
         <ul class="service-list">
-          <li>Message tampering & injection</li>
-          <li>Auth token manipulation</li>
-          <li>Rate limiting & DoS testing</li>
-          <li>Cross-origin WebSocket hijacking</li>
+          <li>Root/jailbreak detection</li>
+          <li>SSL pinning & cert validation</li>
+          <li>Secure local storage</li>
+          <li>ProGuard/R8 obfuscation</li>
         </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Frida Bypass</span>
+          <span class="tech-tag">Tamper Detection</span>
+          <span class="tech-tag">RASP</span>
+        </div>
       </div>
 
       <div class="service-card fade-in">
-        <div class="service-icon">&#128225;</div>
-        <h3>API Security</h3>
-        <p>REST, GraphQL, and gRPC API testing — auth, rate limiting, injection, object-level auth, mass assignment, and business logic attacks.</p>
+        <div class="service-icon">&#128259;</div>
+        <h3>Real-Time & IoT Apps</h3>
+        <p>Apps involving real-time communication, hardware integration, computer vision, and sensor data processing.</p>
         <ul class="service-list">
-          <li>REST, GraphQL & gRPC</li>
-          <li>JWT & OAuth testing</li>
-          <li>BOLA / IDOR detection</li>
-          <li>Mass assignment & injection</li>
-          <li>Business logic abuse</li>
+          <li>WebSocket / MQTT integration</li>
+          <li>Camera & OpenCV pipelines</li>
+          <li>BLE & sensor peripherals</li>
+          <li>Real-time data dashboards</li>
         </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">OpenCV</span>
+          <span class="tech-tag">TensorFlow Lite</span>
+          <span class="tech-tag">WebSockets</span>
+          <span class="tech-tag">BLE</span>
+        </div>
       </div>
 
       <div class="service-card fade-in">
-        <div class="service-icon">&#129302;</div>
-        <h3>LLM Security</h3>
-        <p>Prompt injection, jailbreaking, training data extraction, and tool-use exploitation for LLM-integrated applications.</p>
+        <div class="service-icon">&#128221;</div>
+        <h3>MVP & Prototyping</h3>
+        <p>Rapid mobile prototyping to validate your idea. Functional MVPs with clean architecture ready for iteration.</p>
         <ul class="service-list">
-          <li>Prompt injection attacks</li>
-          <li>Jailbreaking & guardrail bypass</li>
-          <li>Data & PII extraction</li>
-          <li>Tool/plugin exploitation</li>
+          <li>Wireframe to working app</li>
+          <li>Clean architecture (MVVM/BLoC)</li>
+          <li>Figma-to-Flutter workflow</li>
+          <li>Iterative delivery</li>
         </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Figma</span>
+          <span class="tech-tag">BLoC</span>
+          <span class="tech-tag">MVVM</span>
+          <span class="tech-tag">Rapid Prototyping</span>
+        </div>
       </div>
 
       <div class="service-card fade-in">
-        <div class="service-icon">&#129504;</div>
-        <h3>AI Attack Surfaces</h3>
-        <p>Adversarial ML, model inversion, training data poisoning, and MLOps pipeline security assessment.</p>
+        <div class="service-icon">&#128230;</div>
+        <h3>App Maintenance & Upgrades</h3>
+        <p>Ongoing maintenance, SDK upgrades, bug fixes, and feature additions for existing Flutter or native Android apps.</p>
         <ul class="service-list">
-          <li>Adversarial example generation</li>
-          <li>Model inversion & extraction</li>
-          <li>MLOps pipeline review</li>
-          <li>Supply chain risk in AI models</li>
+          <li>Flutter/Dart SDK upgrades</li>
+          <li>Null safety migration</li>
+          <li>Performance optimization</li>
+          <li>Legacy app modernization</li>
         </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Migration</span>
+          <span class="tech-tag">Refactoring</span>
+          <span class="tech-tag">Performance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Past Work</div>
+      <h2 class="section-title">Featured Mobile Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <h3>&#128274; Quantum</h3>
+        <p>Fully serverless P2P messaging platform with post-quantum E2EE using CRYSTALS-Kyber768 and AES-256-GCM. Built with Flutter.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Flutter</span>
+          <span class="tech-tag">E2EE</span>
+          <span class="tech-tag">P2P</span>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <h3>&#127909; FluxCam</h3>
+        <p>Real-time webcam control with v4l2 controls and OpenCV-based video effects. Cross-platform with clean UI.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">OpenCV</span>
+          <span class="tech-tag">v4l2</span>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <h3>&#128065; BlindCap</h3>
+        <p>Assistive wearable for visually impaired users using object detection, depth sensing, and audio navigation.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">YOLO</span>
+          <span class="tech-tag">TensorFlow</span>
+          <span class="tech-tag">Computer Vision</span>
+        </div>
       </div>
     </div>
   </div>
@@ -320,70 +376,38 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
 <section id="process">
   <div class="container">
     <div class="section-header fade-in">
-      <div class="section-tag">Methodology</div>
-      <h2 class="section-title">How I Work</h2>
+      <div class="section-tag">Process</div>
+      <h2 class="section-title">How I Deliver</h2>
       <div class="section-line"></div>
     </div>
     <div class="process-list">
       <div class="process-step fade-in">
         <div class="process-num">1</div>
         <div>
-          <h4>Scoping &amp; Reconnaissance</h4>
-          <p>We define the engagement scope, rules of engagement, and timeline. I map your attack surface — domains, subdomains, APIs, and exposed services.</p>
+          <h4>Discovery &amp; Scoping</h4>
+          <p>We discuss your idea, target audience, and requirements. I define the tech stack, architecture, and deliver a detailed proposal with timeline and cost estimate.</p>
         </div>
       </div>
       <div class="process-step fade-in">
         <div class="process-num">2</div>
         <div>
-          <h4>Vulnerability Assessment</h4>
-          <p>Automated + manual scanning across all in-scope surfaces to identify weaknesses.</p>
+          <h4>Design &amp; Prototyping</h4>
+          <p>Wireframes and clickable prototypes to validate UX before writing code. Iterative feedback cycles to get the design right.</p>
         </div>
       </div>
       <div class="process-step fade-in">
         <div class="process-num">3</div>
         <div>
-          <h4>Exploitation &amp; PoC</h4>
-          <p>Every finding is validated with proof-of-concept exploits. No false positives — I demonstrate real impact with controlled exploitation.</p>
+          <h4>Development</h4>
+          <p>Clean, tested, documented code with regular builds. I push working APKs every sprint so you see real progress, not just status updates.</p>
         </div>
       </div>
       <div class="process-step fade-in">
         <div class="process-num">4</div>
         <div>
-          <h4>Reporting &amp; Remediation</h4>
-          <p>You receive a detailed report with CVSS scores, reproduction steps, and prioritized remediation guidance. I'm available for retesting after fixes.</p>
+          <h4>Testing &amp; Launch</h4>
+          <p>Comprehensive testing — unit, widget, integration, and on real devices. Play Store listing, screenshots, and submission handled end-to-end.</p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="why">
-  <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-tag">Why Me</div>
-      <h2 class="section-title">What Sets Me Apart</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="why-grid">
-      <div class="why-card fade-in">
-        <div class="why-icon">&#127919;</div>
-        <h4>Real-World Experience</h4>
-        <p>50+ vulnerabilities across 20+ enterprise engagements, including RASP bypass in production apps.</p>
-      </div>
-      <div class="why-card fade-in">
-        <div class="why-icon">&#128269;</div>
-        <h4>Attacker's Mindset</h4>
-        <p>I think like an adversary. Red team training means I don't just run scanners — I chain exploits and think creatively.</p>
-      </div>
-      <div class="why-card fade-in">
-        <div class="why-icon">&#128221;</div>
-        <h4>Actionable Reports</h4>
-        <p>No generic templates. Every report includes CVSS scores, remediation steps, and PoC code tailored to your stack.</p>
-      </div>
-      <div class="why-card fade-in">
-        <div class="why-icon">&#128231;</div>
-        <h4>Clear Communication</h4>
-        <p>I speak engineer, executive, and product. You'll understand every finding and why it matters for your business.</p>
       </div>
     </div>
   </div>
@@ -392,12 +416,12 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
 <section id="cta">
   <div class="container">
     <div class="cta-card fade-in">
-      <h2>Ready to Secure Your Systems?</h2>
-      <p>Whether it's a one-time assessment or ongoing security testing, let's talk about your needs. No commitment, just a conversation.</p>
+      <h2>Have an App Idea?</h2>
+      <p>From MVP to production, let's build something great. No commitment — just a conversation about your project.</p>
       <div class="cta-email">arnav.padwal7@gmail.com</div>
       <div class="cta-phone">(+91) 9969489350 &middot; Thane, Mumbai</div>
       <div class="cta-links">
-        <a href="mailto:arnav.padwal7@gmail.com?subject=VAPT%20Engagement%20Inquiry" class="btn btn-primary">Send an Email</a>
+        <a href="mailto:arnav.padwal7@gmail.com?subject=Android%20Development%20Inquiry" class="btn btn-primary">Send an Email</a>
         <a href="https://www.linkedin.com/in/arnavpadwal" class="cta-link" target="_blank" rel="noopener">
           <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
@@ -405,8 +429,8 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
         <a href="/" class="cta-link">
           &#8592; Back to Portfolio
         </a>
-        <a href="dev.html" class="cta-link" style="border-color:rgba(77,171,247,0.3);color:#4dabf7;">
-          &#128241; Android Dev Services
+        <a href="hire.html" class="cta-link" style="border-color:rgba(0,230,118,0.3);color:#00e676;">
+          &#128737; VAPT Services
         </a>
       </div>
     </div>
@@ -424,12 +448,12 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 const canvas = document.getElementById('matrix');
 const ctx = canvas.getContext('2d');
-let width, height, columns, drops;
+let W, H, cols, drops;
 function resize() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  columns = Math.floor(width / 22);
-  drops = new Array(columns).fill(1);
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  cols = Math.floor(W / 22);
+  drops = new Array(cols).fill(1);
 }
 resize();
 window.addEventListener('resize', resize);
@@ -437,13 +461,13 @@ window.addEventListener('resize', resize);
 const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/\\{}[]#@$%&*';
 setInterval(() => {
   ctx.fillStyle = 'rgba(10,10,15,0.05)';
-  ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = '#00e676';
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#4dabf7';
   ctx.font = '14px "Fira Code", monospace';
   for (let i = 0; i < drops.length; i++) {
     const t = chars[Math.floor(Math.random() * chars.length)];
     ctx.fillText(t, i * 22, drops[i] * 22);
-    if (drops[i] * 22 > height && Math.random() > 0.975) drops[i] = 0;
+    if (drops[i] * 22 > H && Math.random() > 0.975) drops[i] = 0;
     drops[i]++;
   }
 }, 50);
