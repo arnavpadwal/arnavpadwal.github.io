@@ -108,15 +108,16 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
   border-radius: 8px;
   font-size: 0.85rem; color: var(--accent-cyber);
   margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+.hero-banner:hover { background: rgba(0,230,118,0.12); border-color: var(--accent-cyber); }
 .hero-banner-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--accent-cyber);
   box-shadow: 0 0 8px var(--accent-glow-cyber);
   animation: pulse-dot 2s ease-in-out infinite;
 }
-.hero-banner-link { color: var(--accent-cyber); font-weight: 600; text-decoration: underline; white-space: nowrap; }
-.hero-banner-link:hover { color: #fff; }
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -349,11 +350,10 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
         50+ vulnerabilities found across 20+ enterprise engagements.
         Published researcher with an Indian patent.
       </p>
-      <div class="hero-banner">
+      <a href="hire.html" class="hero-banner">
         <span class="hero-banner-dot"></span>
-        <span>Open for freelance VAPT engagements &mdash;</span>
-        <a href="hire.html" class="hero-banner-link">learn more &rarr;</a>
-      </div>
+        Open for freelance VAPT engagements
+      </a>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">About Me</a>
         <a href="#experience" class="btn btn-outline">View Experience</a>
