@@ -129,17 +129,6 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 .btn-outline:hover { border-color: var(--accent-dev); box-shadow: 0 0 20px var(--accent-glow-dev); }
 .btn-outline-product { background: transparent; border-color: var(--border); color: var(--text-primary); }
 .btn-outline-product:hover { border-color: var(--accent-product); box-shadow: 0 0 20px var(--accent-glow-product); }
-.btn-hire {
-  background: linear-gradient(135deg, rgba(0,230,118,0.12), rgba(0,230,118,0.04));
-  border: 1px solid var(--accent-cyber);
-  color: var(--accent-cyber);
-  animation: hire-pulse 2.5s ease-in-out infinite;
-}
-.btn-hire:hover { background: var(--accent-cyber); color: #0a0a0f; box-shadow: 0 0 30px var(--accent-glow-cyber); transform: translateY(-2px); animation: none; }
-@keyframes hire-pulse {
-  0%, 100% { box-shadow: 0 0 8px var(--accent-glow-cyber); }
-  50% { box-shadow: 0 0 22px rgba(0,230,118,0.45); }
-}
 
 /* ═══════ SECTION HEADERS ═══════ */
 .section-header { text-align: center; margin-bottom: 4rem; }
@@ -369,7 +358,6 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: cente
         <a href="#about" class="btn btn-primary">About Me</a>
         <a href="#experience" class="btn btn-outline">View Experience</a>
         <a href="#contact" class="btn btn-outline-product">Get in Touch</a>
-        <a href="hire.html" class="btn btn-hire">&#128737; Available for VAPT</a>
       </div>
     </div>
   </div>
