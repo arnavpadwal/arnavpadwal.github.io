@@ -76,19 +76,32 @@ async function main() {
 
     await setStatus('Running screw_trajectory_dashboard.py (unmodified)…', 'running');
 
-    const stdout = await pyodide.runPythonAsync(`
+    const payload = await pyodide.runPythonAsync(`
 import os
 os.environ['MPLBACKEND'] = 'Agg'
-import sys, io
+import sys, io, json, base64
+import matplotlib
+matplotlib.use('Agg')
 sys.stdout = io.StringIO()
 code = open('screw_trajectory_dashboard.py').read()
-exec(compile(code, 'screw_trajectory_dashboard.py', 'exec'), {'__name__': '__main__'})
-sys.stdout.getvalue()
+ns = {'__name__': '__main__'}
+try:
+    exec(compile(code, 'screw_trajectory_dashboard.py', 'exec'), ns)
+    out = sys.stdout.getvalue()
+    fig = ns['fig']
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png', dpi=160, bbox_inches='tight')
+    payload = '__RESULT__' + json.dumps({'stdout': out, 'png': base64.b64encode(buf.getvalue()).decode()})
+except BaseException:
+    import traceback
+    payload = '__ERROR__' + traceback.format_exc()
+payload
 `);
 
-    const pngB64 = pyodide.FS.readFile('screw_trajectory_dashboard.png', { encoding: 'base64' });
-    document.getElementById('dash-img').src = 'data:image/png;base64,' + pngB64;
-    document.getElementById('stdout').textContent = stdout;
+    if (payload.startsWith('__ERROR__')) throw new Error(payload.slice(9));
+    const parsed = JSON.parse(payload.slice(9));
+    document.getElementById('dash-img').src = 'data:image/png;base64,' + parsed.png;
+    document.getElementById('stdout').textContent = parsed.stdout;
     document.getElementById('dl').href = 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(pyCode)));
     document.getElementById('result').style.display = 'block';
     await setStatus('Done — exact Python output rendered below.', 'done');
