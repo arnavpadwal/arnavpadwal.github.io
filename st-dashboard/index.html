@@ -3,370 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Interactive screw trajectory planning dashboard — 3D geometry, thread purchase optimization.">
+<meta name="description" content="Screw Trajectory Dashboard — runs the exact Python script in the browser via Pyodide.">
 <title>Screw Trajectory Dashboard</title>
-<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: Arial, Helvetica, sans-serif; padding: 16px; background: #f5f7fa; color: #222; }
-  h1 { font-size: 1.3rem; margin-bottom: 4px; }
-  .sub { color: #666; font-size: 0.85rem; margin-bottom: 16px; }
-  .grid { display: grid; grid-template-columns: 320px 1fr; gap: 16px; }
-  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 14px; }
+  body { font-family: Arial, Helvetica, sans-serif; padding: 20px; background: #f5f7fa; color: #222; }
+  h1 { font-size: 1.3rem; }
+  .sub { color: #666; font-size: 0.85rem; margin: 4px 0 16px; }
+  .status { font-size: 0.85rem; color: #555; margin-bottom: 12px; font-family: monospace; }
+  .status .dot { display:inline-block; width:10px; height:10px; border-radius:50%; background:#f0ad4e; margin-right:6px; }
+  .status.running .dot { background:#00e676; animation: pulse 1s infinite; }
+  .status.done .dot { background:#28a745; }
+  .status.error .dot { background:#d9534f; }
+  @keyframes pulse { 50% { opacity: 0.3; } }
+  img.dash { max-width: 100%; border: 1px solid #ccc; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin-top: 16px; }
   .card h2 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
-  .inputs .row { margin-bottom: 9px; }
-  .inputs label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 2px; }
-  .inputs label b { font-weight: 600; }
-  .inputs input[type=range] { width: 100%; }
-  .out { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px dashed #eee; }
-  .out b { color: #b3570f; }
-  .plot { width: 100%; height: 540px; }
-  .curve { width: 100%; height: 420px; margin-top: 16px; }
-  .disclaimer { font-size: 0.72rem; color: #888; margin-top: 12px; }
-  button { padding: 6px 12px; border: 1px solid #888; border-radius: 5px; background: #fff; cursor: pointer; font-size: 0.8rem; }
-  button:hover { background: #eef; }
+  pre.out { background: #0d1117; color: #e8e8f0; padding: 12px; border-radius: 6px; font-size: 0.82rem; overflow-x: auto; }
+  .btn { display:inline-block; padding: 7px 14px; border: 1px solid #888; border-radius: 6px; background: #fff; color:#333; text-decoration:none; font-size: 0.82rem; cursor:pointer; margin-right: 8px; }
+  .btn:hover { background: #eef; }
+  .mono { font-family: monospace; }
 </style>
 </head>
 <body>
 
 <h1>Screw Trajectory Dashboard</h1>
-<div class="sub">Interactive screw-trajectory optimization — 3D geometry, thread purchase vs. lateral angle.</div>
+<div class="sub">Runs the unmodified <code>screw_trajectory_dashboard.py</code> in your browser via <a href="https://pyodide.org">Pyodide</a> (Python on WebAssembly).</div>
 
-<div class="grid">
-  <div>
-    <div class="card inputs">
-      <h2>Inputs</h2>
-      <div id="inputs"></div>
-      <div style="text-align:right"><button onclick="resetDefaults()">Reset</button></div>
-    </div>
-    <div class="card" style="margin-top:16px">
-      <h2>Outputs</h2>
-      <div id="outputs"></div>
-    </div>
+<div id="status" class="status"><span class="dot"></span><span id="status-text">Loading Python runtime (numpy + scipy + matplotlib) — first load downloads ~40&nbsp;MB, please wait…</span></div>
+
+<div id="result" style="display:none">
+  <img id="dash-img" class="dash" alt="Screw trajectory dashboard output">
+  <div class="card">
+    <h2>Outputs (printed by the script)</h2>
+    <pre id="stdout" class="out"></pre>
   </div>
   <div class="card">
-    <div id="plot3d" class="plot"></div>
+    <h2>Source</h2>
+    <a id="dl" class="btn" download="screw_trajectory_dashboard.py">Download screw_trajectory_dashboard.py</a>
+    <a id="view" class="btn" href="screw_trajectory_dashboard.py" target="_blank">View source</a>
   </div>
 </div>
 
-<div class="card" style="margin-top:16px">
-  <h2>Thread purchase vs. lateral angle &beta;<sub>S</sub></h2>
-  <div id="curve" class="curve"></div>
+<div id="error" style="display:none" class="card">
+  <h2>Error</h2>
+  <pre id="error-text" class="out"></pre>
 </div>
 
-<div class="disclaimer">
-  Geometric/engineering planning and teaching aid only — not a substitute for clinical judgment,
-  intraoperative fluoroscopy, or validated surgical planning software.
-</div>
-
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script>
-const D2R = Math.PI / 180;
-
-const DEFAULTS = {
-  L: 50.0, Lth: 20.0, pitch: 1.5,
-  alphaS_deg: 10.0, alphaN_deg: 13.0, betaN_deg: 15.0,
-  R: 22.0, d_axis: 35.0,
-  beta_min: -60.0, beta_max: 60.0
-};
-
-const INPUT_DEFS = [
-  { key: 'L',          label: 'Screw total length L (mm)',        min: 20, max: 100, step: 0.5 },
-  { key: 'Lth',        label: 'Threaded tip length Lth (mm)',     min: 5,  max: 60,  step: 0.5 },
-  { key: 'pitch',      label: 'Thread pitch (mm)',                min: 0.5, max: 3.0, step: 0.05 },
-  { key: 'alphaS_deg', label: 'Fixed AP angle \u03b1_S (\u00b0)', min: -30, max: 30,  step: 0.5 },
-  { key: 'alphaN_deg', label: 'Physis AP obliquity \u03b1_N (\u00b0)', min: 0, max: 45, step: 0.5 },
-  { key: 'betaN_deg',  label: 'Physis lateral obliquity \u03b2_N (\u00b0)', min: -30, max: 30, step: 0.5 },
-  { key: 'R',          label: 'Femoral head radius R (mm)',      min: 10, max: 40,  step: 0.5 },
-  { key: 'd_axis',     label: 'Entry-to-physis distance (mm)',   min: 5,  max: 80,  step: 0.5 }
-];
-
-const dot = (a, b) => a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
-const sub = (a, b) => [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
-const scale = (v, s) => v.map(x => x*s);
-const norm = v => Math.hypot(v[0], v[1], v[2]);
-function normalize(v) { const n = norm(v) || 1; return scale(v, 1/n); }
-
-function threadLengthInside(betaS_deg, p) {
-  const dir = [Math.tan(p.alphaS_deg*D2R), Math.tan(betaS_deg*D2R), 1.0];
-  const uS = normalize(dir);
-  const denom = dot(uS, p.N_normal);
-  const s_physis = Math.abs(denom) < 1e-9 ? Infinity : dot(sub(p.C, p.P0), p.N_normal) / denom;
-
-  const diff = sub(p.P0, p.C);
-  const b = dot(uS, diff);
-  const c = dot(diff, diff) - p.R*p.R;
-  const disc = b*b - c;
-  if (disc < 0) return { L_inside: 0, s_physis, s_sphere: -Infinity, penetration: false };
-
-  const sqrtDisc = Math.sqrt(disc);
-  const s_sphere = Math.max(-b - sqrtDisc, -b + sqrtDisc);
-
-  const threadStart = p.L - p.Lth, threadEnd = p.L;
-  const zoneStart = Math.max(0, s_physis), zoneEnd = s_sphere;
-  const ovStart = Math.max(threadStart, zoneStart), ovEnd = Math.min(threadEnd, zoneEnd);
-  const L_inside = Math.max(0, ovEnd - ovStart);
-  return { L_inside, s_physis, s_sphere, penetration: p.L > s_sphere };
+async function setStatus(msg, cls) {
+  const el = document.getElementById('status');
+  el.className = 'status' + (cls ? ' ' + cls : '');
+  document.getElementById('status-text').textContent = msg;
 }
 
-// Bounded Brent minimization (Numerical Recipes)
-function minimizeBrent(f, a, b, tol) {
-  tol = tol || 1e-7;
-  const sqrtEps = Math.sqrt(Number.EPSILON);
-  const golden = 0.5*(3 - Math.sqrt(5));
-  let x = a + golden*(b - a), w = x, v = x;
-  let fx = f(x), fw = fx, fv = fx;
-  let c = 0, d = 0, e = 0;
-  for (let iter = 0; iter < 200; iter++) {
-    const xm = 0.5*(a + b);
-    const tol1 = Math.abs(x)*tol + 1e-30;
-    const tol2 = 2*tol1;
-    if (Math.abs(x - xm) <= tol2 - 0.5*(b - a)) break;
-    let u, fu;
-    if (Math.abs(e) > tol1) {
-      const r = (x - w)*(fx - fv);
-      const q = (x - v)*(fx - fw);
-      const pp = (x - v)*q - (x - w)*r;
-      let qq = 2*(q - r);
-      if (qq > 0) pp = -pp;
-      qq = Math.abs(qq);
-      const etemp = e;
-      e = d;
-      if (Math.abs(pp) < Math.abs(0.5*qq*etemp) && pp > qq*(a - x) && pp < qq*(b - x)) {
-        d = pp/qq;
-        u = x + d;
-        if (u - a < tol2 || b - u < tol2) d = (xm >= x ? tol1 : -tol1);
-      } else {
-        e = (x >= xm ? a - x : b - x);
-        d = golden*e;
-      }
-    } else {
-      e = (x >= xm ? a - x : b - x);
-      d = golden*e;
-    }
-    u = x + (Math.abs(d) >= tol1 ? d : Math.sign(d)*tol1);
-    fu = f(u);
-    if (fu <= fx) {
-      if (u >= x) a = x; else b = x;
-      v = w; fv = fw; w = x; fw = fx; x = u; fx = fu;
-    } else {
-      if (u < x) a = u; else b = u;
-      if (fu <= fw || w === x) { v = w; fv = fw; w = u; fw = fu; }
-      else if (fu <= fv || v === x || v === w) { v = u; fv = fu; }
-    }
-  }
-  return { x, fx };
-}
+async function main() {
+  try {
+    const pyRes = await fetch('screw_trajectory_dashboard.py');
+    if (!pyRes.ok) throw new Error('Failed to fetch screw_trajectory_dashboard.py: HTTP ' + pyRes.status);
+    const pyCode = await pyRes.text();
 
-const linspace = (a, b, n) => { const dx = (b - a)/(n - 1); return Array.from({length:n}, (_, i) => a + i*dx); };
+    await setStatus('Loading Pyodide…');
+    const pyodide = await loadPyodide();
 
-let P = Object.assign({}, DEFAULTS);
-let cfg = null;
+    await setStatus('Loading scipy (numpy)…');
+    await pyodide.loadPackage('scipy');
+    await setStatus('Loading matplotlib…');
+    await pyodide.loadPackage('matplotlib');
 
-function buildInputs() {
-  const el = document.getElementById('inputs');
-  el.innerHTML = '';
-  for (const def of INPUT_DEFS) {
-    const row = document.createElement('div');
-    row.className = 'row';
-    const label = document.createElement('label');
-    const name = document.createElement('span');
-    name.textContent = def.label;
-    const val = document.createElement('b');
-    const range = document.createElement('input');
-    range.type = 'range';
-    range.min = def.min; range.max = def.max; range.step = def.step;
-    range.value = P[def.key];
-    range.addEventListener('input', () => {
-      P[def.key] = parseFloat(range.value);
-      val.textContent = fmt(P[def.key]);
-      update();
-    });
-    label.appendChild(name); label.appendChild(val);
-    row.appendChild(label); row.appendChild(range);
-    el.appendChild(row);
-    val.textContent = fmt(P[def.key]);
+    pyodide.FS.writeFile('screw_trajectory_dashboard.py', pyCode);
+
+    await setStatus('Running screw_trajectory_dashboard.py (unmodified)…', 'running');
+
+    const stdout = await pyodide.runPythonAsync(`
+import os
+os.environ['MPLBACKEND'] = 'Agg'
+import sys, io
+sys.stdout = io.StringIO()
+code = open('screw_trajectory_dashboard.py').read()
+exec(compile(code, 'screw_trajectory_dashboard.py', 'exec'), {'__name__': '__main__'})
+sys.stdout.getvalue()
+`);
+
+    const pngB64 = pyodide.FS.readFile('screw_trajectory_dashboard.png', { encoding: 'base64' });
+    document.getElementById('dash-img').src = 'data:image/png;base64,' + pngB64;
+    document.getElementById('stdout').textContent = stdout;
+    document.getElementById('dl').href = 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(pyCode)));
+    document.getElementById('result').style.display = 'block';
+    await setStatus('Done — exact Python output rendered below.', 'done');
+  } catch (err) {
+    document.getElementById('error-text').textContent = String(err && err.stack || err);
+    document.getElementById('error').style.display = 'block';
+    await setStatus('Failed to run the script.', 'error');
   }
 }
 
-function fmt(x) { return (Math.abs(x) < 100 ? x.toFixed(2) : x.toFixed(1)) + ''; }
-
-function resetDefaults() {
-  P = Object.assign({}, DEFAULTS);
-  buildInputs();
-  update();
-}
-
-function renderOutputs(o) {
-  const el = document.getElementById('outputs');
-  el.innerHTML = '';
-  const rows = [
-    ['Optimal lateral angle \u03b2_S', o.betaS_opt.toFixed(2) + '\u00b0'],
-    ['Distance to physis crossing s_physis', o.s_physis.toFixed(2) + ' mm'],
-    ['Distance to joint surface s_sphere', o.s_sphere.toFixed(2) + ' mm'],
-    ['Threaded length inside epiphysis L_inside', o.L_inside.toFixed(2) + ' mm'],
-    ['Approx. threads engaged', o.N_threads.toFixed(1)],
-    ['Articular penetration risk', o.penetration ? 'YES \u2013 tip breaches joint surface' : 'No']
-  ];
-  for (const [k, v] of rows) {
-    const row = document.createElement('div');
-    row.className = 'out';
-    const kk = document.createElement('span'); kk.textContent = k;
-    const vv = document.createElement('b'); vv.textContent = v;
-    row.appendChild(kk); row.appendChild(vv);
-    el.appendChild(row);
-  }
-}
-
-function render3D(o, p) {
-  const R = p.R, C = p.C;
-  const uS = o.uS;
-  const N = p.N_normal;
-  const axis_len = Math.max(p.L, C[2] + R) * 1.2;
-  const L = axis_len;
-
-  const arbitrary = [1, 0, 0];
-  let e1 = normalize(cross3(N, arbitrary));
-  if (norm(e1) < 1e-9) e1 = normalize(cross3(N, [0, 1, 0]));
-  const e2 = normalize(cross3(N, e1));
-
-  // Hemisphere surface (same masking as Python)
-  const u = linspace(0, 2*Math.PI, 50);
-  const v = linspace(0, Math.PI, 50);
-  const X = [], Y = [], Z = [];
-  for (let j = 0; j < v.length; j++) {
-    const rX = [], rY = [], rZ = [];
-    for (let i = 0; i < u.length; i++) {
-      const x = R*Math.cos(u[i])*Math.sin(v[j]) + C[0];
-      const y = R*Math.sin(u[i])*Math.sin(v[j]) + C[1];
-      const z = R*Math.cos(v[j]) + C[2];
-      const d = (x - C[0])*N[0] + (y - C[1])*N[1] + (z - C[2])*N[2];
-      if (d < 0) { rX.push(NaN); rY.push(NaN); rZ.push(NaN); }
-      else { rX.push(x); rY.push(y); rZ.push(z); }
-    }
-    X.push(rX); Y.push(rY); Z.push(rZ);
-  }
-
-  // Physis disk mesh (fan triangulation)
-  const disk_r = R * 1.15;
-  const theta = linspace(0, 2*Math.PI, 60);
-  const diskPts = theta.map(t => {
-    const pt = [C[0], C[1], C[2]];
-    for (let k = 0; k < 3; k++) pt[k] += disk_r*(e1[k]*Math.cos(t) + e2[k]*Math.sin(t));
-    return pt;
-  });
-  const vx = [C[0]], vy = [C[1]], vz = [C[2]];
-  diskPts.forEach(pt => { vx.push(pt[0]); vy.push(pt[1]); vz.push(pt[2]); });
-  const ii = [], jj = [], kk = [];
-  for (let i = 0; i < diskPts.length; i++) {
-    const nxt = (i + 1) % diskPts.length;
-    ii.push(0); jj.push(i + 1); kk.push(nxt + 1);
-  }
-
-  const pt_entry = p.P0;
-  const pt_physis = add(p.P0, scale(uS, o.s_physis));
-  const pt_sphere_hit = add(p.P0, scale(uS, o.s_sphere));
-  const pt_tip = add(p.P0, scale(uS, p.L));
-  const pt_thread_start = add(p.P0, scale(uS, Math.max(p.L - p.Lth, 0)));
-
-  const data = [
-    { type: 'surface', x: X, y: Y, z: Z, opacity: 0.45,
-      colorscale: [[0, 'rgb(255,204,153)'], [1, 'rgb(255,204,153)']],
-      showscale: false, name: 'Femoral head sphere' },
-    { type: 'mesh3d', x: vx, y: vy, z: vz, i: ii, j: jj, k: kk,
-      color: 'rgb(160,170,255)', opacity: 0.35, flatshading: true,
-      showscale: false, name: 'Physis plane' },
-    { type: 'scatter3d', mode: 'lines', x: [0, 0], y: [0, 0], z: [0, axis_len],
-      line: { color: 'black', width: 2, dash: 'dash' }, name: 'Neck axis' },
-    { type: 'scatter3d', mode: 'lines',
-      x: [pt_entry[0], pt_thread_start[0]], y: [pt_entry[1], pt_thread_start[1]], z: [pt_entry[2], pt_thread_start[2]],
-      line: { color: 'rgb(90,90,90)', width: 7 }, name: 'Shank' },
-    { type: 'scatter3d', mode: 'lines',
-      x: [pt_thread_start[0], pt_tip[0]], y: [pt_thread_start[1], pt_tip[1]], z: [pt_thread_start[2], pt_tip[2]],
-      line: { color: 'rgb(217,30,30)', width: 7 }, name: 'Threads' },
-    { type: 'scatter3d', mode: 'markers', x: [pt_entry[0]], y: [pt_entry[1]], z: [pt_entry[2]],
-      marker: { size: 6, color: 'black', symbol: 'circle' }, name: 'Entry (P0)' },
-    { type: 'scatter3d', mode: 'markers', x: [pt_physis[0]], y: [pt_physis[1]], z: [pt_physis[2]],
-      marker: { size: 7, color: 'green', symbol: 'triangle-up' }, name: 'Physis crossing' },
-    { type: 'scatter3d', mode: 'markers', x: [pt_sphere_hit[0]], y: [pt_sphere_hit[1]], z: [pt_sphere_hit[2]],
-      marker: { size: 7, color: 'magenta', symbol: 'diamond' }, name: 'Joint surface exit' },
-    { type: 'scatter3d', mode: 'markers', x: [pt_tip[0]], y: [pt_tip[1]], z: [pt_tip[2]],
-      marker: { size: 9, color: 'red', symbol: 'star' }, name: 'Tip' }
-  ];
-
-  const layout = {
-    title: { text: 'Optimized 3D trajectory  (\u03b1_S=' + p.alphaS_deg.toFixed(1) + '\u00b0, \u03b2_S=' + o.betaS_opt.toFixed(2) + '\u00b0)', font: { size: 13 } },
-    margin: { l: 10, r: 10, t: 40, b: 10 },
-    paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
-    scene: {
-      xaxis: { title: 'X (AP), mm', range: [-L/2, L/2] },
-      yaxis: { title: 'Y (lateral), mm', range: [-L/2, L/2] },
-      zaxis: { title: 'Z (neck axis), mm', range: [0, L] },
-      aspectmode: 'manual', aspectratio: { x: 1, y: 1, z: 1 },
-      camera: { eye: { x: 1.4, y: 1.1, z: 0.7 } }
-    },
-    legend: { orientation: 'h', y: -0.15, font: { size: 10 } }
-  };
-  Plotly.react('plot3d', data, layout, { responsive: true, displayModeBar: true });
-}
-
-function renderCurve(o, p, betaVec, Lvec) {
-  const data = [
-    { type: 'scatter', mode: 'lines', x: betaVec, y: Lvec,
-      line: { color: '#185FA5', width: 2.2 }, name: 'L_inside(\u03b2_S)' },
-    { type: 'scatter', mode: 'lines',
-      x: [o.betaS_opt, o.betaS_opt], y: [0, o.L_max],
-      line: { color: '#993C1D', width: 1.2, dash: 'dot' }, showlegend: false },
-    { type: 'scatter', mode: 'markers', x: [o.betaS_opt], y: [o.L_max],
-      marker: { size: 10, color: '#D85A30' }, name: 'Optimum' }
-  ];
-  const layout = {
-    margin: { l: 55, r: 30, t: 10, b: 45 },
-    paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(255,255,255,1)',
-    xaxis: { title: 'Lateral view angle \u03b2_S (deg)', gridcolor: '#ddd', zerolinecolor: '#bbb' },
-    yaxis: { title: 'Threaded length inside epiphysis, L_inside (mm)', gridcolor: '#ddd', zerolinecolor: '#bbb' },
-    legend: { font: { size: 10 } },
-    annotations: [{
-      x: o.betaS_opt, y: o.L_max,
-      text: 'Optimum<br>\u03b2_S = ' + o.betaS_opt.toFixed(2) + '\u00b0<br>L_inside = ' + o.L_max.toFixed(2) + ' mm',
-      xref: 'x', yref: 'y', showarrow: true, arrowhead: 2, ax: 40, ay: -60,
-      font: { size: 11, color: '#712B13' }
-    }]
-  };
-  Plotly.react('curve', data, layout, { responsive: true, displayModeBar: true });
-}
-
-const add = (a, b) => [a[0]+b[0], a[1]+b[1], a[2]+b[2]];
-function cross3(a, b) { return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
-
-function update() {
-  const p = {
-    L: P.L, Lth: P.Lth, pitch: P.pitch, alphaS_deg: P.alphaS_deg,
-    R: P.R, P0: [0, 0, 0], C: [0, 0, P.d_axis]
-  };
-  p.N_normal = normalize([Math.tan(P.alphaN_deg*D2R), Math.tan(P.betaN_deg*D2R), 1.0]);
-
-  const res = minimizeBrent(b => -threadLengthInside(b, p).L_inside, P.beta_min, P.beta_max);
-  const betaS_opt = res.x;
-  const L_max = -res.fx;
-  const tl = threadLengthInside(betaS_opt, p);
-
-  const betaVec = linspace(P.beta_min, P.beta_max, 400);
-  const Lvec = betaVec.map(b => threadLengthInside(b, p).L_inside);
-
-  const o = {
-    betaS_opt, L_max, L_inside: tl.L_inside, s_physis: tl.s_physis,
-    s_sphere: tl.s_sphere, penetration: tl.penetration,
-    N_threads: tl.L_inside / p.pitch, uS: normalize([Math.tan(P.alphaS_deg*D2R), Math.tan(betaS_opt*D2R), 1.0])
-  };
-  renderOutputs(o);
-  render3D(o, p);
-  renderCurve(o, p, betaVec, Lvec);
-  cfg = { p, o, betaVec, Lvec };
-}
-
-buildInputs();
-update();
+main();
 </script>
 </body>
 </html>
