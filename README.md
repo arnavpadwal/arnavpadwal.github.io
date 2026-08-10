@@ -53,7 +53,7 @@ Real-time webcam control with v4l2 controls and OpenCV effects.
 
 ## 📚 Publications & Patents
 
-- **Padwal, A., et al.** "Establishing Noninvasive Predictive Models for Post–Cardiac Surgery Atrial Fibrillation Using ML." *JPC-RR*, Vol. 12, No. 3, July 2025.
+- **Padwal, A., et al.** "[Establishing Noninvasive Predictive Models for Post–Cardiac Surgery Atrial Fibrillation Using ML.](https://www.ovid.com/jnls/jpcr/fulltext/10.4103/jpcc.jpcc_26_25~establishing-noninvasive-predictive-models-for-pediatric)" *JPC-RR*, Vol. 12, No. 3, July 2025.
 - **Padwal, A., et al.** "Surface EMG-Based Real-Time Detection of Lower Limb Activities Using ML." *ICTEAH 2025* — 95.64% accuracy, 268.2 µs inference time.
 - **Padwal, A., et al.** "A Pinch Gauge with an Adjustable Height Mechanism." *Indian Patent*, Published 2025 (Affiliated with BETiC, IIT Bombay).
 
