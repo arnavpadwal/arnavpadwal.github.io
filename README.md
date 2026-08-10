@@ -100,8 +100,8 @@ Real-time webcam control with v4l2 controls and OpenCV effects.
 ## 📊 Stats
 
 <p align="center">
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=arnavpadwal&theme=dark&show_icons=true&count_private=true&hide_border=true&border_radius=10&bg_color=0d1117&title_color=00e676&icon_color=4dabf7&text_color=c9d1d9" width="45%">
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs?username=arnavpadwal&theme=dark&layout=compact&hide_border=true&border_radius=10&bg_color=0d1117&title_color=00e676&text_color=c9d1d9" width="33%">
+  <img src="https://github-readme-stats-kappa-swart.vercel.app/api?username=arnavpadwal&theme=dark&show_icons=true&count_private=true&hide_border=true&border_radius=10&bg_color=0d1117&title_color=00e676&icon_color=4dabf7&text_color=c9d1d9" width="45%">
+  <img src="https://github-readme-stats-kappa-swart.vercel.app/api/top-langs?username=arnavpadwal&theme=dark&layout=compact&hide_border=true&border_radius=10&bg_color=0d1117&title_color=00e676&text_color=c9d1d9" width="33%">
 </p>
 
 ---
